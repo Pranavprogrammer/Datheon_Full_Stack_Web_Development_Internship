@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A responsive task manager and productivity tracker with localStorage persistence." />
+  <title>Momentum — Task Manager</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a href="#" class="brand"><span class="brand-symbol">m</span><span>momentum<span class="brand-period">.</span></span></a>
+      <div class="profile-card"><div class="avatar">Y</div><div><strong>Your workspace</strong><small>Personal planner</small></div><span class="profile-dots">•••</span></div>
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="side-nav" aria-label="Task views">
+        <button class="nav-item active" type="button" data-filter="all"><span class="nav-icon">▦</span><span>All tasks</span><span class="nav-count" id="allCount">0</span></button>
+        <button class="nav-item" type="button" data-filter="active"><span class="nav-icon">◷</span><span>In progress</span><span class="nav-count" id="activeCount">0</span></button>
+        <button class="nav-item" type="button" data-filter="completed"><span class="nav-icon">✓</span><span>Completed</span><span class="nav-count" id="completedCount">0</span></button>
+      </nav>
+      <p class="nav-label category-label">CATEGORIES <button type="button" id="clearCategory" title="Show all categories">↺</button></p>
+      <div class="category-list">
+        <button class="category-item" data-category="Work" type="button"><span class="category-dot work"></span>Work<span class="category-count" id="workCount">0</span></button>
+        <button class="category-item" data-category="Personal" type="button"><span class="category-dot personal"></span>Personal<span class="category-count" id="personalCount">0</span></button>
+        <button class="category-item" data-category="Study" type="button"><span class="category-dot study"></span>Study<span class="category-count" id="studyCount">0</span></button>
+      </div>
+      <div class="sidebar-bottom"><div class="storage-icon">✓</div><div><strong>Saved on this device</strong><small>Your tasks persist locally.</small></div></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><p class="date-label" id="todayLabel">YOUR DAY</p><h1>Make room for <em>progress.</em></h1></div>
+        <div class="topbar-actions"><span class="today-pill"><span>●</span> Personal workspace</span><button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">☾</button></div>
+      </header>
+
+      <section class="welcome-banner">
+        <div class="banner-copy"><span class="banner-kicker">A LITTLE PROGRESS ADDS UP</span><h2>One thing at a time.</h2><p>Focus on what matters today. You’ve got this.</p></div>
+        <div class="banner-art" aria-hidden="true"><div class="sun"></div><div class="hill hill-back"></div><div class="hill hill-front"></div><div class="banner-star star-a">✦</div><div class="banner-star star-b">✳</div></div>
+      </section>
+
+      <section class="stats-grid" aria-label="Task summary">
+        <article class="stat-card"><div class="stat-top"><span>Total tasks</span><span class="stat-icon total-icon">▤</span></div><strong id="totalStat">0</strong><small>Everything on your list</small></article>
+        <article class="stat-card"><div class="stat-top"><span>In progress</span><span class="stat-icon active-icon">◷</span></div><strong id="progressStat">0</strong><small>Still to do</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Completed</span><span class="stat-icon done-icon">✓</span></div><strong id="doneStat">0</strong><small>Look at you go!</small></article>
+        <article class="stat-card completion-card"><div class="stat-top"><span>Completion rate</span><span class="stat-icon rate-icon">↗</span></div><strong id="rateStat">0%</strong><div class="progress-track"><span id="progressBar"></span></div></article>
+      </section>
+
+      <section class="tasks-section">
+        <div class="tasks-heading"><div><p class="section-kicker">YOUR WORKSPACE</p><h2 id="listHeading">All tasks <span id="headingCount">0</span></h2></div><button class="add-top-btn" id="focusAddBtn" type="button"><span>＋</span> New task</button></div>
+        <form id="taskForm" class="task-form">
+          <label class="sr-only" for="taskTitle">Task title</label><input id="taskTitle" name="title" type="text" maxlength="120" placeholder="What needs to get done?" required />
+          <label class="sr-only" for="taskCategory">Category</label><select id="taskCategory" name="category"><option value="Work">Work</option><option value="Personal">Personal</option><option value="Study">Study</option></select>
+          <label class="sr-only" for="taskDueDate">Due date</label><input id="taskDueDate" name="dueDate" type="date" aria-label="Due date" />
+          <button type="submit" class="add-task-btn"><span>＋</span> Add task</button>
+        </form>
+        <div class="list-toolbar">
+          <div class="filter-tabs" role="group" aria-label="Filter tasks">
+            <button class="filter-tab active" data-filter="all" type="button">All <span id="tabAllCount">0</span></button>
+            <button class="filter-tab" data-filter="active" type="button">Active <span id="tabActiveCount">0</span></button>
+            <button class="filter-tab" data-filter="completed" type="button">Completed <span id="tabCompletedCount">0</span></button>
+          </div>
+          <div class="list-actions"><label class="search-tasks"><span>⌕</span><input id="taskSearch" type="search" placeholder="Search tasks…" aria-label="Search tasks" /></label><select id="sortTasks" aria-label="Sort tasks"><option value="created">Newest first</option><option value="due">Due date</option><option value="title">Title A–Z</option></select></div>
+        </div>
+        <div id="taskList" class="task-list"></div>
+        <div id="emptyState" class="empty-state"><div class="empty-illustration">✓</div><h3>Your space to get things done.</h3><p>Add a task above to get started. Small steps lead to big things.</p><button id="emptyAddBtn" type="button">＋ Create your first task</button></div>
+        <div class="list-footer"><span id="listFooterText">0 tasks</span><button id="clearCompletedBtn" type="button">Clear completed</button></div>
+      </section>
+      <footer class="app-footer"><span>MADE FOR A MORE FOCUSED DAY</span><span><span class="footer-dot"></span> Automatically saved to this browser</span></footer>
+    </main>
+  </div>
+
+  <dialog id="editDialog" class="edit-dialog">
+    <form id="editForm" method="dialog">
+      <div class="dialog-header"><div><p class="section-kicker">MAKE IT YOURS</p><h2>Edit task</h2></div><button class="dialog-close" type="button" id="closeEditBtn" aria-label="Close">×</button></div>
+      <input type="hidden" id="editTaskId" />
+      <label for="editTitle">Task title</label><input id="editTitle" maxlength="120" required />
+      <label for="editCategory">Category</label><select id="editCategory"><option>Work</option><option>Personal</option><option>Study</option></select>
+      <label for="editDueDate">Due date</label><input id="editDueDate" type="date" />
+      <div class="dialog-actions"><button type="button" class="cancel-btn" id="cancelEditBtn">Cancel</button><button type="submit" class="add-task-btn">Save changes</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

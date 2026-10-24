@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Responsive product catalog and interactive shopping cart." />
+  <title>ShopEase | Product Catalog</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="ShopEase home"><span class="brand-mark">S</span> ShopEase</a>
+    <form class="search-form" id="searchForm" role="search">
+      <label class="sr-only" for="searchInput">Search products</label>
+      <input id="searchInput" type="search" placeholder="Search products..." autocomplete="off" />
+      <button type="submit" aria-label="Search">⌕</button>
+    </form>
+    <button class="cart-trigger" id="openCartBtn" type="button" aria-controls="cartDrawer" aria-expanded="false">
+      <span aria-hidden="true">🛒</span> Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">THE EVERYDAY EDIT</p>
+        <h1>Find something<br /><span>you’ll love.</span></h1>
+        <p class="hero-description">Thoughtful picks for your everyday life. Explore the collection and make it yours.</p>
+        <a href="#catalog" class="primary-link">Explore products <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+        <div class="art-card art-card-back">EVERYDAY<br />ESSENTIALS</div>
+        <div class="art-card art-card-front"><span>THE GOOD<br />STUFF</span><span class="art-spark">✳</span></div>
+        <div class="floating-dot dot-one"></div><div class="floating-dot dot-two"></div>
+      </div>
+    </section>
+
+    <section class="catalog-section" id="catalog">
+      <div class="section-heading">
+        <div><p class="eyebrow">CURATED FOR YOU</p><h2>Shop the collection</h2></div>
+        <p class="results-label" id="resultsLabel">Loading products…</p>
+      </div>
+      <div class="toolbar">
+        <div class="category-filters" role="group" aria-label="Filter by category">
+          <button class="filter-btn active" data-category="all" type="button">All products</button>
+          <button class="filter-btn" data-category="electronics" type="button">Electronics</button>
+          <button class="filter-btn" data-category="jewelery" type="button">Jewelry</button>
+          <button class="filter-btn" data-category="men's clothing" type="button">Men’s clothing</button>
+          <button class="filter-btn" data-category="women's clothing" type="button">Women’s clothing</button>
+        </div>
+        <label class="sort-control">Sort by
+          <select id="sortSelect">
+            <option value="featured">Featured</option>
+            <option value="price-low">Price: low to high</option>
+            <option value="price-high">Price: high to low</option>
+            <option value="rating">Top rated</option>
+          </select>
+        </label>
+      </div>
+      <div id="statusMessage" class="status-message" role="status" aria-live="polite">Connecting to the product catalog…</div>
+      <div id="productGrid" class="product-grid"></div>
+    </section>
+    <section class="trust-strip" aria-label="Store benefits">
+      <div><span>↗</span><strong>Easy browsing</strong><small>Find your next favorite</small></div>
+      <div><span>◇</span><strong>Clear pricing</strong><small>No surprise totals</small></div>
+      <div><span>♡</span><strong>Made for you</strong><small>A simple shopping flow</small></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="brand" href="#"><span class="brand-mark">S</span> ShopEase</a><p>Demo storefront built with HTML, CSS, JavaScript and FakeStoreAPI.</p><span>© <span id="year"></span> ShopEase</span></footer>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-labelledby="cartTitle" aria-hidden="true">
+    <div class="drawer-header"><div><p class="eyebrow">YOUR SELECTION</p><h2 id="cartTitle">Shopping cart <span id="drawerItemCount">(0)</span></h2></div><button id="closeCartBtn" class="icon-btn" type="button" aria-label="Close cart">×</button></div>
+    <div id="cartItems" class="cart-items"></div>
+    <div id="emptyCart" class="empty-cart"><span>🛍️</span><h3>Your cart is waiting</h3><p>Add a few things you love and they’ll show up here.</p><button id="continueShoppingBtn" class="primary-btn" type="button">Continue shopping</button></div>
+    <div class="cart-summary" id="cartSummary">
+      <div class="summary-row"><span>Subtotal</span><strong id="subtotalValue">₹0.00</strong></div>
+      <div class="summary-row"><span>Estimated tax (5%)</span><strong id="taxValue">₹0.00</strong></div>
+      <div class="summary-row"><span>Shipping</span><strong id="shippingValue">₹0.00</strong></div>
+      <div class="summary-row total-row"><span>Total</span><strong id="totalValue">₹0.00</strong></div>
+      <p class="shipping-note" id="shippingNote">Free shipping on orders of ₹5,000 or more.</p>
+      <button id="checkoutBtn" class="checkout-btn" type="button">Continue to checkout <span>→</span></button>
+      <p class="demo-note">Demo checkout — no payment is collected.</p>
+    </div>
+  </aside>
+
+  <dialog id="checkoutDialog" class="checkout-dialog">
+    <form method="dialog" id="checkoutForm">
+      <button class="dialog-close" value="cancel" aria-label="Close">×</button>
+      <p class="eyebrow">ALMOST YOURS</p><h2>Complete your order</h2>
+      <p class="dialog-intro">This is a demo checkout. Enter details to preview an order confirmation.</p>
+      <label>Full name<input name="customerName" id="customerName" required maxlength="80" placeholder="Your name" /></label>
+      <label>Email address<input name="customerEmail" id="customerEmail" type="email" required placeholder="you@example.com" /></label>
+      <label>Delivery address<textarea name="address" id="customerAddress" required rows="2" maxlength="250" placeholder="Street, city, PIN code"></textarea></label>
+      <div class="dialog-total"><span>Order total</span><strong id="dialogTotal">₹0.00</strong></div>
+      <button class="checkout-btn" id="placeOrderBtn" type="submit" value="submit">Place demo order</button>
+    </form>
+  </dialog>
+  <dialog id="successDialog" class="checkout-dialog success-dialog">
+    <form method="dialog"><div class="success-icon">✓</div><p class="eyebrow">ORDER CONFIRMED</p><h2>Thank you, <span id="successName">shopper</span>!</h2><p id="successMessage">Your demo order has been created.</p><p class="order-number" id="orderNumber"></p><button class="checkout-btn" value="close">Back to store</button></form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

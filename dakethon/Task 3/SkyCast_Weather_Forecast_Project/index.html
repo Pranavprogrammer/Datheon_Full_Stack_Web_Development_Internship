@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Responsive real-time weather forecast and climate telemetry dashboard." />
+  <title>SkyCast — Weather & Forecast</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/config.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="SkyCast home"><span class="brand-icon">☼</span><span>skycast<span class="brand-dot">.</span></span></a>
+      <div class="topbar-note"><span class="live-dot"></span> LIVE WEATHER TELEMETRY</div>
+      <button class="unit-toggle" id="unitToggle" type="button" aria-label="Switch temperature units">°C <span>/</span> °F</button>
+    </header>
+
+    <main>
+      <section class="intro">
+        <p class="eyebrow">YOUR WORLD, AT A GLANCE</p>
+        <h1>Weather, <em>wherever</em><br />you are.</h1>
+        <p class="intro-copy">Real-time conditions and the days ahead, all in one clear forecast.</p>
+      </section>
+
+      <form id="searchForm" class="search-bar">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <label class="sr-only" for="cityInput">Search city</label>
+        <input id="cityInput" name="city" type="search" placeholder="Search a city worldwide..." autocomplete="off" required />
+        <button id="searchButton" type="submit"><span>Search</span><span aria-hidden="true">→</span></button>
+      </form>
+      <div class="search-hint">Try a city like Tokyo, London, New York or Jaipur.</div>
+
+      <div id="errorMessage" class="error-message" role="alert" hidden></div>
+      <div id="loadingState" class="loading-state" role="status" aria-live="polite" hidden>
+        <span class="spinner"></span><span>Fetching the latest weather…</span>
+      </div>
+
+      <section id="weatherDashboard" class="weather-dashboard" aria-live="polite" hidden>
+        <div class="current-weather card">
+          <div class="current-top">
+            <div><p class="eyebrow">CURRENT CONDITIONS</p><h2 id="cityName">—</h2><p class="location-meta" id="localTime">—</p></div>
+            <div class="weather-icon-large" id="currentIcon" aria-hidden="true">☀️</div>
+          </div>
+          <div class="temperature-row"><div class="temperature" id="currentTemp">—</div><div class="condition-block"><strong id="conditionText">—</strong><span id="feelsLike">Feels like —</span><span id="highLow">H: — · L: —</span></div></div>
+          <div class="current-divider"></div>
+          <div class="weather-stats">
+            <div class="stat"><span class="stat-icon">◉</span><div><small>Humidity</small><strong id="humidity">—</strong></div></div>
+            <div class="stat"><span class="stat-icon">↗</span><div><small>Wind speed</small><strong id="windSpeed">—</strong></div></div>
+            <div class="stat"><span class="stat-icon">⌁</span><div><small>Pressure</small><strong id="pressure">—</strong></div></div>
+            <div class="stat"><span class="stat-icon">☼</span><div><small>Visibility</small><strong id="visibility">—</strong></div></div>
+          </div>
+        </div>
+        <section class="forecast-section card">
+          <div class="forecast-heading"><div><p class="eyebrow">PLAN AHEAD</p><h2>5-day forecast</h2></div><span class="forecast-caption">DAILY OUTLOOK</span></div>
+          <div class="forecast-grid" id="forecastGrid"></div>
+        </section>
+      </section>
+
+      <section id="welcomePanel" class="welcome-panel">
+        <div class="welcome-symbol" aria-hidden="true">☁</div>
+        <h2>A little forecast goes a long way.</h2>
+        <p>Search for a city to see its current temperature, conditions, humidity, wind, pressure and 5-day outlook.</p>
+        <div class="welcome-pills"><span>🌤 Current conditions</span><span>🌬 Wind & humidity</span><span>📅 5-day forecast</span></div>
+      </section>
+    </main>
+
+    <footer class="footer"><span>SKYCAST WEATHER DASHBOARD</span><span>Powered by OpenWeatherMap · Built for learning</span></footer>
+  </div>
+  <script>
+    // Add a dynamic theme class after current conditions have been loaded.
+    document.addEventListener('weather:theme', (event) => {
+      document.body.dataset.weather = event.detail || 'default';
+    });
+  </script>
+</body>
+</html>
